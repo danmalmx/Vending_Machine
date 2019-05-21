@@ -10,7 +10,7 @@ namespace Vending_Machine
     {
         public override void CreateProductGroup(string Name, int Price)
         {
-            ProductType = Product.Snack;
+            ProductType = Product.Food;
             this.Name = Name;
             this.Price = Price;
             Consuming = "Chew it up";

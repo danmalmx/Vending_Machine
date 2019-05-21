@@ -15,12 +15,13 @@ namespace Vending_Machine
             Food
         }
 
+        public int Id { get; set; }
         public Product ProductType { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
         public string Consuming { get; set; }
 
-        public abstract void CreateProductGroup(string Name, int Priceg);
+        public abstract void CreateProductGroup(string Name, int Price);
 
     }
 

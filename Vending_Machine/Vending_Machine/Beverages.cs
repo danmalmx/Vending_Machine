@@ -11,7 +11,7 @@ namespace Vending_Machine
         
         public override void CreateProductGroup(string Name, int Price)
         {
-            ProductType = Product.Snack;
+            ProductType = Product.Beverage;
             this.Name = Name;
             this.Price = Price;
             Consuming = "Sip it down";

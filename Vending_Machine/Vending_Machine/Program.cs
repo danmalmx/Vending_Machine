@@ -10,17 +10,27 @@ namespace Vending_Machine
     {
         static void Main(string[] args)
         {
-            var Id = 0;
+            List<Products> productItems = new List<Products>();
 
-            var snack1 = new Snack();
-            var drink1 = new Beverages();
+            var snack = new Snack();
+            var drink = new Beverages();
+            var food = new Food();
+            
+            snack.CreateProductGroup("Chips", 25);
+            drink.CreateProductGroup("Coca-Cola", 15);
+            food.CreateProductGroup("Hamburger", 85);
 
-            snack1.CreateProductGroup("Chips", 25);
-            drink1.CreateProductGroup("Coca-Cola", 15);
+            productItems.Add(snack);
+            productItems.Add(drink);
+            productItems.Add(food);
 
-            Console.WriteLine("ID: \t Type: \t Name: \t Price: \t How to consume it:");
+
+            Console.WriteLine("ID: \t Type: \t \t Name: \t Price: \t How to consume it:");
             Console.WriteLine();
-            Console.WriteLine($"{++Id} \t {snack1.ProductType} \t {snack1.Name} \t {snack1.Price} \t {snack1.Consuming}");
+            foreach (var item in productItems)
+            {
+            Console.WriteLine($"{++item.Id} \t {item.ProductType} \t \t {item.Name} \t  {item.Price} \t {item.Consuming}");
+            }
 
             Console.ReadKey();
         }
