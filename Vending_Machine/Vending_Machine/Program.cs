@@ -13,8 +13,10 @@ namespace Vending_Machine
             var Id = 0;
 
             var snack1 = new Snack();
+            var drink1 = new Beverages();
 
             snack1.CreateProductGroup("Chips", 25);
+            drink1.CreateProductGroup("Coca-Cola", 15);
 
             Console.WriteLine("ID: \t Type: \t Name: \t Price: \t How to consume it:");
             Console.WriteLine();
