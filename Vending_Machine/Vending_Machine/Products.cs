@@ -20,7 +20,7 @@ namespace Vending_Machine
         public int Price { get; set; }
         public string Consuming { get; set; }
 
-        public abstract void CreateProductGroup(Product ProductType, string Name, int Price, string Consuming);
+        public abstract void CreateProductGroup(string Name, int Priceg);
 
     }
 
