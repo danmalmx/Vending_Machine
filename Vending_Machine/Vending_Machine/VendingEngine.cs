@@ -21,12 +21,22 @@ namespace Vending_Machine
 
                 if (cashIn == 0)
                 {
-
+                    ChooseItem();
                 }
                 cashAmount += cashIn;
             }
         }
 
+        public void ChooseItem()
+        {
+            int itemChoice;
+            int itemPrice;
+            int totalCost;
+
+            while (true)
+            {
+
+            }
         }
     }
 }
