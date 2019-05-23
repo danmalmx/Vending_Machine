@@ -6,15 +6,22 @@ using System.Threading.Tasks;
 
 namespace Vending_Machine
 {
-    class Beverages : Products
+    class Beverage : Products, IConsumeItem
     {
-        
-        public override void CreateProductGroup(string Name, int Price)
+        public Beverage()
         {
-            ProductType = Product.Beverage;
+        }
+
+        public Beverage(string Name, int Price)
+        {
+            ProductType = Product.Drink;
             this.Name = Name;
             this.Price = Price;
-            Consuming = "Sip it down";
+        }
+
+        public void ConsumeIt()
+        {
+            Console.WriteLine("Sip it down");
         }
     }
 }

@@ -10,29 +10,51 @@ namespace Vending_Machine
     {
         static void Main(string[] args)
         {
-            List<Products> productItems = new List<Products>();
+            int Id = 0;
+            List<Products> items = new List<Products>();
 
-            var snack = new Snack();
-            var drink = new Beverages();
-            var food = new Food();
-            
-            snack.CreateProductGroup("Chips", 25);
-            drink.CreateProductGroup("Coca-Cola", 15);
-            food.CreateProductGroup("Hamburger", 85);
-
-            productItems.Add(snack);
-            productItems.Add(drink);
-            productItems.Add(food);
+            var snacks = new Snack();
+            var drinks = new Beverage();
+            var foods = new Food();
 
 
-            Console.WriteLine("ID: \t Type: \t \t Name: \t Price: \t How to consume it:");
-            Console.WriteLine();
-            foreach (var item in productItems)
+            //ConsumeIt(snacks);
+            //ConsumeIt(drinks);
+            //ConsumeIt(foods);
+
+
+            //Snack items
+            items.Add(new Snack("Crisps", 20));
+            items.Add(new Snack("Cookie", 10));
+            items.Add(new Snack("IceCream", 25));
+
+
+            //Drink items
+            items.Add(new Beverage("Coca-Cola", 15));
+            items.Add(new Beverage("Fizzy Water", 10));
+            items.Add(new Beverage("Coffee", 20));
+
+            //Food items
+            items.Add(new Food("Cheese Burger", 85));
+            items.Add(new Food("Sandwhich", 60));
+            items.Add(new Food("Hot Dog", 35));
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("ID: \t Type: \t Name: \t \t Cost:");
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            foreach (var i in items)
             {
-            Console.WriteLine($"{++item.Id} \t {item.ProductType} \t \t {item.Name} \t  {item.Price} \t {item.Consuming}");
+                Console.WriteLine($"{++Id} \t {i.ProductType} \t {i.Name} \t {i.Price}");
             }
+        Console.ReadKey();
+        }
 
-            Console.ReadKey();
+        //Trial of a polymorphic method
+
+        static void ConsumeIt(IConsumeItem consume)
+        {
+            consume.ConsumeIt();
         }
     }
 }

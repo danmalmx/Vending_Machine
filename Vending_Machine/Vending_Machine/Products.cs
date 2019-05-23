@@ -11,17 +11,13 @@ namespace Vending_Machine
         public enum Product
         {
             Snack,
-            Beverage,
+            Drink,
             Food
         }
 
-        public int Id { get; set; }
         public Product ProductType { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
-        public string Consuming { get; set; }
-
-        public abstract void CreateProductGroup(string Name, int Price);
 
     }
 
