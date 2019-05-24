@@ -12,16 +12,17 @@ namespace Vending_Machine
         {
         }
 
-        public Beverage(string Name, int Price)
+        public Beverage(string Name, int Price, string consume)
         {
             ProductType = Product.Drink;
             this.Name = Name;
             this.Price = Price;
+            Consume = consume;
         }
 
-        public void ConsumeIt()
+        public string ConsumeIt()
         {
-            Console.WriteLine("Sip it down");
+            return "sipping it down!";
         }
     }
 }

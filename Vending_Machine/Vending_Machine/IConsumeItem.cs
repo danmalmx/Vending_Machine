@@ -8,6 +8,6 @@ namespace Vending_Machine
 {
     public interface IConsumeItem
     {
-        void ConsumeIt();
+        string ConsumeIt();
     }
 }
