@@ -11,7 +11,8 @@ namespace Vending_Machine
         //public Product ProductType { get; set; }
         public List<Products> Items { get; set; }
         int cashAmount = 0;
-        //int totalCost = 0;
+        int totalCost = 0;
+        public int cashRemain;
 
 
         public void ViewItems()
@@ -86,6 +87,22 @@ namespace Vending_Machine
             }
             return cashAmount;
         }
+        public void CashRemain()
+        {
+            cashRemain = cashRemain;
+            Console.WriteLine();          
+            if (cashRemain > 0)
+            {                
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"You get {cashRemain} in change");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Come back when you have more money, bum!");
+            }
+            Console.ReadKey();
+        }               
 
         public int ChooseItem()
         {
@@ -103,26 +120,32 @@ namespace Vending_Machine
                 if (itemChoice == 0)
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"Total cost is {cashAmount}");
+                    Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                    Console.WriteLine($"Total cost is {totalCost}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
                 }
 
-                //Adds item cost to total cost
+                //Calculates costs and remaining cash
+                cashRemain = cashAmount;
+                totalCost += Items[itemChoice - 1].Price;
                 cashAmount -= Items[itemChoice-1].Price;
+
                 //Adds item name to list
                 itemNames.Add(Items[itemChoice-1].Name);
 
-                if (cashAmount <= 0)
+                if (cashAmount < 0)
                 {
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"You're missing {Math.Abs(cashAmount)} for that item. Get a job!");
-                    Console.ForegroundColor = ConsoleColor.Gray;                
+                    Console.WriteLine($"You're missing {Math.Abs(cashAmount)} for that {Items[itemChoice - 1].Name}.");
                     break;
-                }
-
+                } 
+                
                 //Adds consume style to list
                 consumeWay.Add(Items[itemChoice - 1].Consume);
+
+                //Writes out remaining amount on a new line.
                 Console.Clear();
                 ViewItems();
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -130,37 +153,23 @@ namespace Vending_Machine
                 Console.ForegroundColor = ConsoleColor.Gray;            
             }
 
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"You bought: ");
-            Console.ForegroundColor = ConsoleColor.Gray;
+                //List the items bought
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"You bought: ");
+                Console.ForegroundColor = ConsoleColor.Gray;
 
-            // Foreach loop for 2 variables - thank you stackoverflow.com!
-            foreach (var item in itemNames.Zip(consumeWay, (a, b) => new { A = a, B = b }))
-            {
-                var a = item.A;
-                var b = item.B;
+                // Foreach loop for 2 variables - thank you stackoverflow.com!
+                foreach (var item in itemNames.Zip(consumeWay, (a, b) => new { A = a, B = b }))
+                {
+                    var a = item.A;
+                    var b = item.B;
 
-                Console.WriteLine($"{a} which you consume by {b}");
-            }
-
-            Console.WriteLine();
+                    Console.WriteLine($"{a} which you consume by {b}");
+                }
+            CashRemain();
 
             return cashAmount;
         }
-
-        public void CashRemain()
-        {
-            Console.WriteLine();
-            int cashRemain = cashAmount;
-            if (cashRemain >= 0)
-            {
-                
-            } else
-            {
-            Console.WriteLine($"You have {cashRemain} in change");
-            }
-            Console.ReadKey();
-        }               
     }
 }
