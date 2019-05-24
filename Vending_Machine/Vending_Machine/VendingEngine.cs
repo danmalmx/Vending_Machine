@@ -11,7 +11,7 @@ namespace Vending_Machine
         //public Product ProductType { get; set; }
         public List<Products> Items { get; set; }
         int cashAmount = 0;
-        int totalCost = 0;
+        //int totalCost = 0;
 
 
         public void ViewItems()
@@ -23,14 +23,11 @@ namespace Vending_Machine
             var drinks = new Beverage();
             var foods = new Food();
 
+            //Calling on interface method 
             string ConsumeIt(IConsumeItem consume)
             {
                 return consume.ConsumeIt();
             }
-
-            //ConsumeIt(snacks);
-            //ConsumeIt(drinks);
-            //ConsumeIt(foods);
 
             //Snack items
             Items.Add(new Snack("Crisps", 20, ConsumeIt(snacks)));
@@ -62,23 +59,30 @@ namespace Vending_Machine
         {
             while (true)
             {
-                Console.Write("Enter cash, end with 0: ");
+                ViewItems();
+                Console.Write("Enter cash (in increments of 5), end with 0: ");
                 int cashIn = int.Parse(Console.ReadLine());
 
                 if (cashIn == 0)
                 {
+                    Console.Clear();
+                    ViewItems();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write($"You have loaded {cashAmount} into the machine");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine();
-                    Console.WriteLine($"You have loaded {cashAmount} into the machine");
-                    Console.WriteLine();
+                    ChooseItem();
                     break;
                 }
 
-                else if(cashIn % 10 != 0)
+                else if (cashIn % 5 != 0)
                 {
-                    Console.WriteLine("Only integer numbers with a 10 increase ");
+                    Console.WriteLine("Only integer numbers with a 5 increase ");
                     continue;
                 }
+
                 cashAmount += cashIn;
+                Console.Clear();
             }
             return cashAmount;
         }
@@ -87,62 +91,76 @@ namespace Vending_Machine
         {
             // List of chosen items
             List<string> itemNames = new List<string>();
+            // List of how to consume the item.
             List<string> consumeWay = new List<string>();
 
             while (true)
             {
+                Console.WriteLine();
                 Console.Write("Choose an item, end with 0: ");
                 int itemChoice = int.Parse(Console.ReadLine());
 
                 if (itemChoice == 0)
                 {
-                    Console.WriteLine($"Total cost is {totalCost}");
+                    Console.WriteLine();
+                    Console.WriteLine($"Total cost is {cashAmount}");
                     break;
                 }
 
                 //Adds item cost to total cost
-                totalCost += Items[itemChoice-1].Price;
+                cashAmount -= Items[itemChoice-1].Price;
                 //Adds item name to list
                 itemNames.Add(Items[itemChoice-1].Name);
+
+                if (cashAmount <= 0)
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"You're missing {Math.Abs(cashAmount)} for that item. Get a job!");
+                    Console.ForegroundColor = ConsoleColor.Gray;                
+                    break;
+                }
+
                 //Adds consume style to list
                 consumeWay.Add(Items[itemChoice - 1].Consume);
-
+                Console.Clear();
+                ViewItems();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine($"You still have {cashAmount}");
+                Console.ForegroundColor = ConsoleColor.Gray;            
             }
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"You have bought: ");
+            Console.WriteLine($"You bought: ");
             Console.ForegroundColor = ConsoleColor.Gray;
 
+            // Foreach loop for 2 variables - thank you stackoverflow.com!
             foreach (var item in itemNames.Zip(consumeWay, (a, b) => new { A = a, B = b }))
             {
                 var a = item.A;
                 var b = item.B;
 
                 Console.WriteLine($"{a} which you consume by {b}");
-              }
+            }
 
             Console.WriteLine();
-                
-                return totalCost;
+
+            return cashAmount;
         }
 
         public void CashRemain()
         {
             Console.WriteLine();
-            int cashRemain = cashAmount - totalCost;
-            Console.WriteLine($"You still have {cashRemain}");
+            int cashRemain = cashAmount;
+            if (cashRemain >= 0)
+            {
+                
+            } else
+            {
+            Console.WriteLine($"You have {cashRemain} in change");
+            }
             Console.ReadKey();
-        }
-
-        public void StartProgram()
-        {
-            ViewItems();
-            InputCash();
-            ChooseItem();
-            CashRemain();            
-        }
-
-               
-        }
+        }               
+    }
 }

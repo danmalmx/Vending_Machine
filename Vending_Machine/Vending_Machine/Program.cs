@@ -12,19 +12,9 @@ namespace Vending_Machine
         {
             var ve = new VendingEngine();
 
-            ve.StartProgram();
-            //ve.ViewItems();
-            //ve.ChooseItem();
-            //ve.InputCash();
-            
+            ve.InputCash();
             Console.ReadKey();
         }
 
-        //Trial of a polymorphic method
-
-        //static void ConsumeIt(IConsumeItem consume)
-        //{
-        //    consume.ConsumeIt();
-        //}
     }
 }
