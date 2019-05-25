@@ -58,21 +58,37 @@ namespace Vending_Machine
 
         public int InputCash()
         {
+            var cashIn = 0;
+
+
             while (true)
             {
-                ViewItems();
+            ViewItems();
+                try
+                {
                 Console.Write("Enter cash (in increments of 5), end with 0: ");
-                int cashIn = int.Parse(Console.ReadLine());
+                cashIn = int.Parse(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(ex.Message);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine();
+
+                    continue;
+                }
 
                 if (cashIn == 0)
                 {
                     Console.Clear();
                     ViewItems();
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write($"You have loaded {cashAmount} into the machine");
+                    Console.Write($"You have loaded {cashAmount} kr into the machine");
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine();
-                    ChooseItem();
+                    HandleItem();
                     break;
                 }
 
@@ -89,33 +105,72 @@ namespace Vending_Machine
         }
         public void CashRemain()
         {
-            cashRemain = cashRemain;
+            cashRemain = cashAmount;
+            int[] cash = new int[5];
+            int[] wallet = { 100, 50, 20, 10, 5 };
+
+            int noCoins = 0;
+            int totalCoins = 0;
+
             Console.WriteLine();          
             if (cashRemain > 0)
             {                
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"You get {cashRemain} in change");
+                Console.WriteLine($"You get {cashAmount} kr in return, in the follwing values: ");
+                for (int i = 0; i < cash.Length; i++)
+                {
+                    noCoins = cashRemain / wallet[i];
+
+                    if (noCoins >= 1)
+                    {
+                        cash[i] += noCoins;
+                        totalCoins += cash[i];
+                        cashRemain = cashRemain % (cash[i] * wallet[i]);
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"{noCoins} x {wallet[i]}kr");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
+                }
             }
-            else
+            else if (cashRemain < totalCost)
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("You need to get more money");
+            }
+            else if (cashRemain > totalCost)
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Come back when you have more money, bum!");
             }
-            Console.ReadKey();
         }               
 
-        public int ChooseItem()
+        public int HandleItem()
         {
             // List of chosen items
             List<string> itemNames = new List<string>();
             // List of how to consume the item.
             List<string> consumeWay = new List<string>();
+            int itemChoice = 0;
 
             while (true)
             {
+
+                try
+                {
                 Console.WriteLine();
                 Console.Write("Choose an item, end with 0: ");
-                int itemChoice = int.Parse(Console.ReadLine());
+                itemChoice = int.Parse(Console.ReadLine());
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(ex.Message);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine();
+
+                    continue;
+                }
 
                 if (itemChoice == 0)
                 {
@@ -138,7 +193,7 @@ namespace Vending_Machine
                 {
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"You're missing {Math.Abs(cashAmount)} for that {Items[itemChoice - 1].Name}.");
+                    Console.WriteLine($"You're missing {Math.Abs(cashAmount)} for that {Items[itemChoice - 1].Name}, you bum!");
                     break;
                 } 
                 
@@ -149,7 +204,7 @@ namespace Vending_Machine
                 Console.Clear();
                 ViewItems();
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"You still have {cashAmount}");
+                Console.WriteLine($"You still have {cashAmount} kr");
                 Console.ForegroundColor = ConsoleColor.Gray;            
             }
 
